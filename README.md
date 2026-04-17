@@ -1,4 +1,4 @@
-# RB GenAI Evaluation Pipeline
+# GenAI Evaluation Pipeline
 
 This is an execution-ready, strict, auditable evaluation framework for the Roland Berger GenAI Assignment.
 It evaluates paired human vs simulated-human answers in an open-ended interview dataset using a hybrid approach of semantic tools, extraction models, and an LLM-as-a-judge paradigm. 

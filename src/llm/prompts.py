@@ -17,31 +17,30 @@ Rules:
 
 JUDGE_PROMPT_V1 = """
 You are a rigorous Director of Consumer Insights at a top-tier strategy consulting firm.
-Your task is to grade how accurately an AI-generated 'simulated consumer' profile matches the real Human's actual interview answer.
+Your task is to grade how accurately a 'Candidate Answer' matches the 'Reference Answer' (ground truth) given by a real consumer in an interview.
 
 Category: {category}
 Question: {question}
 
 ---
-Human Target Answer
-Raw Text: {human_text}
-Extracted Profile: {human_extracted}
+Reference Answer (Ground Truth)
+Raw Text: {reference_text}
+Extracted Profile: {reference_extracted}
 ---
-AI Simulated Answer
-Raw Text: {ai_text}
-Extracted Profile: {ai_extracted}
+Candidate Answer (Simulated)
+Raw Text: {candidate_text}
+Extracted Profile: {candidate_extracted}
 ---
 
 Rubric:
 {rubric}
 
 Instructions:
-1. Compare the AI answer against the Human answer using the 5 dimensions provided in the rubric.
-2. The Human answer is the ground truth.
-3. If the AI sounds significantly more 'polished', 'marketing-like', or 'verbose' than the human, you MUST penalize Tone Persona Match.
-4. If the AI introduces brands, motivations, or specific packaging sizes NOT present in the Human target, you MUST penalize Contradiction/Hallucination and tag 'invented_specificity'.
-5. Supply an overall score from 1-100 representing holistic fidelity.
-6. Provide a 2-3 sentence executive summary of your ruling.
-7. Select any applicable error tags.
-8. Set directional_insight_acceptable = true ONLY IF the error tags are minor AND the core buying motivation matches.
+1. Compare the Candidate answer against the Reference answer using the 5 dimensions provided in the rubric.
+2. The Reference answer represents the ground truth consumer preferences.
+3. If the Candidate sounds significantly more 'polished', 'marketing-like', or 'verbose' than the Reference, you MUST penalize Tone Persona Match.
+4. If the Candidate introduces brands, motivations, or specific packaging sizes NOT present in the Reference target, you MUST penalize Contradiction/Hallucination and tag 'invented_specificity'.
+5. Provide a 2-3 sentence executive summary of your ruling.
+6. Select any applicable error tags.
+7. Set directional_insight_acceptable = true ONLY IF the error tags are minor AND the core buying motivation matches.
 """

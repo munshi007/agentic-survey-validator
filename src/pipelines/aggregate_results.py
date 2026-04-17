@@ -55,7 +55,8 @@ def run_aggregations(scores_list: List[Dict[str, Any]]) -> dict:
         "recommendation": "Use for directional exploration, not high-resolution insight generation.",
     }
     
-    with open("outputs/summary_report.json", "w") as f:
+    # Save the report to deliverables
+    with open("deliverables/summary_report.json", "w") as f:
         json.dump(report_json, f, indent=2)
         
     return {

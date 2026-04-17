@@ -18,5 +18,8 @@ outputs/
 data/processed/
 .DS_Store
 
+# Deliverables are tracked
+!deliverables/
+
 # User env files
 dev.env

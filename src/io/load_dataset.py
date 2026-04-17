@@ -19,23 +19,29 @@ def load_and_validate_dataset() -> List[AnswerPair]:
     try:
         df = pd.read_excel(RAW_FILE)
 
-        # Normalize headers to match assignment terminology explicitly
+        # Normalize input columns broadly
+        df.rename(columns=lambda x: str(x).strip().lower().replace(" ", "_").replace("question_text", "question"), inplace=True)
+
+        # Map whatever variation we get into strict output fields
         expected_columns = {
             'question_category': 'question_category',
             'question': 'question_text',
             'person_id': 'person_id',
+            'human_answer': 'human_answer',
             'human_answers': 'human_answer',
+            'ai_answer': 'ai_answer',
             'ai_answers': 'ai_answer'
         }
         
-        # Check that we have exactly what we expect
-        missing = [col for col in expected_columns.keys() if col not in df.columns]
-        if missing:
-            raise KeyError(f"Dataset missing required columns: {missing}")
-
         # Rename to clean snake_case variables
         df = df.rename(columns=expected_columns)
         
+        # Check that we have exactly what we expect using final canonical names
+        required = ['question_category', 'question_text', 'person_id', 'human_answer', 'ai_answer']
+        missing = [col for col in required if col not in df.columns]
+        if missing:
+            raise KeyError(f"Dataset missing required columns. Normalization resulted in {list(df.columns)}, but need: {missing}")
+
         # Add synthetic IDs for easier tracing
         df['id'] = range(1, len(df) + 1)
         

@@ -1,0 +1,25 @@
+{
+  "overall_score": 43.8,
+  "dimension_scores": {
+    "factual": 2.5,
+    "rationale": 2.1,
+    "specificity": 2.1,
+    "tone": 2.1,
+    "contradiction": 2.0
+  },
+  "top_failure_modes": [
+    {
+      "error_type": "invented_specificity",
+      "count": 30
+    },
+    {
+      "error_type": "tone_mismatch",
+      "count": 18
+    },
+    {
+      "error_type": "rationale_drift",
+      "count": 17
+    }
+  ],
+  "recommendation": "Use for directional exploration, not high-resolution insight generation."
+}

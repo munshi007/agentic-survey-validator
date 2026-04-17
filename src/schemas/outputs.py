@@ -39,5 +39,4 @@ class PairEvaluation(BaseModel):
     ]] = Field(description="Any error tags that apply to the AI answer")
     
     directional_insight_acceptable: bool = Field(description="Is this good enough for directional market research?")
-    overall_score_1_to_100: int = Field(ge=1, le=100, description="Holistic 1-100 fit score")
     executive_summary: str = Field(description="2-3 sentence final verdict on simulation fidelity")

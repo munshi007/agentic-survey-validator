@@ -3,7 +3,7 @@
 from typing import List, Dict, Any
 from ..llm.judge import score_pair
 from ..metrics.lexical_metrics import evaluate_lexical_metrics
-from ..config import MODEL_CONFIG
+from ..config import MODEL_CONFIG, RUBRIC
 from ..utils.logging import get_logger
 
 logger = get_logger(__name__)
@@ -30,7 +30,44 @@ def run_judging_pass(extracted_data: List[Dict[str, Any]]) -> List[dict]:
         lexical = evaluate_lexical_metrics(pair)
         
         # 4. Average Numerical Rubric (handling pos bias)
-        avg_overall = (score_fwd.overall_score_1_to_100 + score_bwd.overall_score_1_to_100) / 2
+        factual = (score_fwd.factual_alignment.score + score_bwd.factual_alignment.score) / 2
+        rationale = (score_fwd.rationale_alignment.score + score_bwd.rationale_alignment.score) / 2
+        specificity = (score_fwd.specificity_calibration.score + score_bwd.specificity_calibration.score) / 2
+        tone = (score_fwd.tone_persona_match.score + score_bwd.tone_persona_match.score) / 2
+        contradiction = (score_fwd.contradiction_hallucination.score + score_bwd.contradiction_hallucination.score) / 2
+
+        # 5. Extract weights from rubric and compute 1-100 score
+        weights = RUBRIC['overall_score']['formula']
+        # Scores are 1-5, so we calculate out of 5, then multiply by 20 to get out of 100.
+        avg_score_out_of_5 = (
+            factual * weights['factual_alignment'] +
+            rationale * weights['rationale_alignment'] +
+            specificity * weights['specificity_calibration'] +
+            tone * weights['tone_persona_match'] +
+            contradiction * weights['contradiction_hallucination']
+        )
+        final_overall_score = avg_score_out_of_5 * 20
+        
+        # Calculate Forward and Backward specific totals to catch instability
+        fwd_score_out_of_5 = (
+            score_fwd.factual_alignment.score * weights['factual_alignment'] +
+            score_fwd.rationale_alignment.score * weights['rationale_alignment'] +
+            score_fwd.specificity_calibration.score * weights['specificity_calibration'] +
+            score_fwd.tone_persona_match.score * weights['tone_persona_match'] +
+            score_fwd.contradiction_hallucination.score * weights['contradiction_hallucination']
+        )
+        bwd_score_out_of_5 = (
+            score_bwd.factual_alignment.score * weights['factual_alignment'] +
+            score_bwd.rationale_alignment.score * weights['rationale_alignment'] +
+            score_bwd.specificity_calibration.score * weights['specificity_calibration'] +
+            score_bwd.tone_persona_match.score * weights['tone_persona_match'] +
+            score_bwd.contradiction_hallucination.score * weights['contradiction_hallucination']
+        )
+        
+        fwd_score_100 = fwd_score_out_of_5 * 20
+        bwd_score_100 = bwd_score_out_of_5 * 20
+        absolute_delta = abs(fwd_score_100 - bwd_score_100)
+        instability_flag = absolute_delta > 15.0 # Mark unstable if it swung by more than 15 points
         
         # We'll rely on the forward pass for explanations/tags to avoid merging text.
         
@@ -38,18 +75,24 @@ def run_judging_pass(extracted_data: List[Dict[str, Any]]) -> List[dict]:
             "id": pair.id,
             "person_id": pair.person_id,
             "category": pair.question_category,
+            "question_text": pair.question_text,
             "human_answer": pair.human_answer,
             "ai_answer": pair.ai_answer,
             
             "length_ratio": lexical['length_ratio'],
             "bert_score_f1": lexical['bert_score_f1'],
             
-            "overall_score": avg_overall,
-            "factual_score": (score_fwd.factual_alignment.score + score_bwd.factual_alignment.score) / 2,
-            "rationale_score": (score_fwd.rationale_alignment.score + score_bwd.rationale_alignment.score) / 2,
-            "specificity_score": (score_fwd.specificity_calibration.score + score_bwd.specificity_calibration.score) / 2,
-            "tone_score": (score_fwd.tone_persona_match.score + score_bwd.tone_persona_match.score) / 2,
-            "contradiction_score": (score_fwd.contradiction_hallucination.score + score_bwd.contradiction_hallucination.score) / 2,
+            "overall_score": final_overall_score,
+            "forward_score": fwd_score_100,
+            "swapped_score": bwd_score_100,
+            "absolute_delta": absolute_delta,
+            "instability_flag": instability_flag,
+            
+            "factual_score": factual,
+            "rationale_score": rationale,
+            "specificity_score": specificity,
+            "tone_score": tone,
+            "contradiction_score": contradiction,
             
             "error_tags": ", ".join(score_fwd.error_tags),
             "is_acceptable": score_fwd.directional_insight_acceptable,

@@ -41,7 +41,7 @@ def main():
     # Format and save exactly the top/bottom models
     format_representative_examples(agg_run['best'], agg_run['worst'])
     
-    logger.info("Pipeline Complete. Outputs written to `./outputs`.")
+    logger.info("Pipeline Complete. Delivery artifacts written to `./deliverables`, raw outputs to `./outputs`.")
     logger.info(f"Overall Final Score: {agg_run['report_json']['overall_score']}")
 
 if __name__ == "__main__":

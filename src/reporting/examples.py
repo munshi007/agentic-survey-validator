@@ -27,4 +27,6 @@ def format_representative_examples(best: List[dict], worst: List[dict]) -> None:
         md_content += f"- **Error Tags:** {ex.get('error_tags', 'None')}\n"
         md_content += f"- **Judge Notes:** {ex.get('judge_explanation', '')}\n\n"
 
-    save_markdown_snippet(md_content, "representative_examples.md")
+    with open("deliverables/representative_examples.md", "w") as f:
+        f.write(md_content)
+    print("Saved deliverables/representative_examples.md")

@@ -1,0 +1,33 @@
+dimensions:
+  factual_alignment:
+    scale: "1-5"
+    definition: "Does the AI preserve concrete preferences, behaviors, and facts stated by the human?"
+  rationale_alignment:
+    scale: "1-5"
+    definition: "Does the AI preserve the underlying reason or decision logic?"
+  specificity_calibration:
+    scale: "1-5"
+    definition: "Is the level of detail appropriate, without unsupported elaboration?"
+  tone_persona_match:
+    scale: "1-5"
+    definition: "Does the AI sound like the same person, not just a semantically similar answer?"
+  contradiction_hallucination:
+    scale: "1-5"
+    definition: "Does the AI avoid contradicting or inventing unsupported details?"
+
+overall_score:
+  formula:
+    factual_alignment: 0.30
+    rationale_alignment: 0.25
+    specificity_calibration: 0.15
+    tone_persona_match: 0.20
+    contradiction_hallucination: 0.10
+
+error_tags:
+  - invented_specificity
+  - preference_distortion
+  - rationale_drift
+  - tone_mismatch
+  - generic_overpolish
+  - contradiction
+  - omission_of_key_detail

@@ -1,0 +1,8 @@
+models:
+  primary_judge: "gpt-4o"
+  extractor: "gpt-4o"
+  fallback: "gpt-4o-mini"
+
+evaluation:
+  num_retries: 2
+  order_swapped: true

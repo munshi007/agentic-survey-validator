@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rb_genai_eval"
+version = "0.1.0"
+description = "Roland Berger GenAI Assignment Hybrid Evaluation Pipeline"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "pydantic>=2.4.0",
+    "openai>=1.14.0",
+    "pyyaml>=6.0.1",
+    "python-dotenv>=1.0.0",
+    "bert-score>=0.3.13"
+]
+
+[project.scripts]
+evaluate = "src.main:main"

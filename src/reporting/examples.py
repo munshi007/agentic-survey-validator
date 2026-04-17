@@ -1,5 +1,6 @@
 """Formatting outputs in markdown for report injection."""
 
+from pathlib import Path
 from typing import List, Dict, Any
 from ..io.save_outputs import save_markdown_snippet
 
@@ -27,6 +28,7 @@ def format_representative_examples(best: List[dict], worst: List[dict]) -> None:
         md_content += f"- **Error Tags:** {ex.get('error_tags', 'None')}\n"
         md_content += f"- **Judge Notes:** {ex.get('judge_explanation', '')}\n\n"
 
+    Path("deliverables").mkdir(parents=True, exist_ok=True)
     with open("deliverables/representative_examples.md", "w") as f:
         f.write(md_content)
     print("Saved deliverables/representative_examples.md")

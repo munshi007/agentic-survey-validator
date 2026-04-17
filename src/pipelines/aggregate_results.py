@@ -2,6 +2,7 @@
 
 import pandas as pd
 import json
+from pathlib import Path
 from typing import List, Dict, Any
 from ..io.save_outputs import save_csv_output, save_markdown_snippet
 from ..utils.logging import get_logger
@@ -56,6 +57,7 @@ def run_aggregations(scores_list: List[Dict[str, Any]]) -> dict:
     }
     
     # Save the report to deliverables
+    Path("deliverables").mkdir(parents=True, exist_ok=True)
     with open("deliverables/summary_report.json", "w") as f:
         json.dump(report_json, f, indent=2)
         

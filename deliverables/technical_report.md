@@ -4,7 +4,7 @@
 **Executive Summary**
 This report evaluates the behavioral fidelity of simulated consumers generated via generative agent architecture (following the methodologies in *Generative Agent Simulations of 1,000 People*, Park et al., 2024). Analysing 30 paired open-ended responses spanning shopping behavior and product preferences, our finding is that while the simulations accurately estimate the **directional preferences** of the target demographic, they suffer from significant **behavioral over-authoring**. 
 
-Our hybrid LLM-as-a-judge framework, tracking factual, rationale, and stylized linguistic metrics, produced an overall **Simulation Fidelity Score of 39.1/100**. The agents are highly reliable for broad market trend aggregation but require strict stylistic debiasing before replacing deep qualitative human interviews.
+Our hybrid LLM-as-a-judge framework, tracking factual, rationale, and stylized linguistic metrics, produced an overall **Simulation Fidelity Score of 43.8/100** (weighted from five rubric dimensions). The agents are highly reliable for broad market trend aggregation but require strict stylistic debiasing before replacing deep qualitative human interviews.
 
 ---
 
@@ -13,7 +13,7 @@ Traditional NLP evaluation metrics (like BLEU or ROUGE) are inadequate for open-
 
 1. **Structured Extraction Pass:** Responses are first mapped into explicit attributes (Brands, Budget Signals, Ingredient Salience, Channel).
 2. **LLM Rubric Scoring (The Judge):** A rigorously prompted AI agent acting as a Consumer Insights Director evaluates differences in Factual Alignment, Specificity Calibration, and Rationale Drift.
-3. **Person-Level Consistency:** We aggregate all answers per respondent to detect underlying "persona drift" across the full interview.
+3. **Person-Level Consistency (Separate Diagnostic):** We aggregate all answers per respondent to detect underlying "persona drift" across the full interview. This layer is reported separately and is not factored into the headline fidelity score.
 4. **Order-Swapped Debiasing:** To mitigate LLM positional bias, human and AI answers were swapped, and final rubrics were averaged.
 
 ### 2. Key Findings & The "Over-authoring" Problem
@@ -24,8 +24,8 @@ While the AI captured broad topic alignment (e.g., recognizing an affinity for K
 - **Tone Mismatch (66% of rows):** Simulated respondents sound hyper-articulate and polished, adopting the cadence of a brand ambassador rather than a stressed business professional.
 - **Rationale Drift (60% of rows):** When human respondents noted they "don't really know the brands," indicating low brand loyalty, the AI generated a highly-logic driven rationale defending its product choices based on "sustainable packaging" or "trusted formulations."
 
-**Consistency Level Assessment:**
-When scoring consistency across the survey for a single respondent, the AI scored highly (75-85/100). The models successfully remember what persona they are emulating. The failure mode resides not in memory, but in *calibration*. The AI profile often distorts slight user apathies into passionate brand philosophies.
+**Consistency Level Assessment (Separate Diagnostic, Not Included in Headline Score):**
+When scoring consistency across the survey for a single respondent, the AI scored highly (75–85/100). The models successfully remember what persona they are emulating. The failure mode resides not in memory, but in *calibration*. The AI profile often distorts slight user apathies into passionate brand philosophies.
 
 ### 3. Implications and Recommendations
 Based on these diagnostics, we propose the following strategic implementations for the Roland Berger GenAI pipeline:

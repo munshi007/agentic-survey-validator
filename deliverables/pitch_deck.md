@@ -8,7 +8,7 @@
 - **Our Methodology:** Adopted the core finding of *Generative Agent Simulations (Park et al., 2024)*—measuring individual-level fidelity—via a multi-layered LLM-as-a-Judge approach.
   1. **Answer Fidelity:** Extracts concrete consumer preference structures (Brands, Reasons, Sizes) over pure lexical strings.
   2. **Tone & Style Fidelity:** Identifies and penalizes verbal polish and artificial certainty.
-  3. **Cross-Question Consistency:** Ensures the core "consumer persona" is preserved across diverse interactions.
+  3. **Cross-Question Consistency (Separate Diagnostic):** Ensures the core "consumer persona" is preserved across diverse interactions. Reported separately from the headline fidelity score.
 - **The Process:** 30 pairs parsed through parallel OpenAI GPT-4o extractions, order-swapped debiasing (to prevent generic favorability), and mapped to an explicit 100-point rubric.
 
 ---
@@ -16,7 +16,7 @@
 ## Slide 2: What We Found
 **Directionally Sound, but Structurally "Over-Authored"**
 
-- **Fidelity Scoreboard (39.1/100):**
+- **Fidelity Scoreboard (43.8/100, weighted from five rubric dimensions):**
   - **Factual Alignment:** *Weak-to-Fair.* Broad intent matches, but explicit preferences miss.
   - **Specificity Calibration:** *Poor.* The AI frequently invents detailed constraints.
   - **Tone & Persona Match:** *Poor.* Over-polished and overly articulate responses.

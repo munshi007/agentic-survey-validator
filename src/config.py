@@ -12,6 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_DIR = PROJECT_ROOT / "configs"
 DATA_DIR = PROJECT_ROOT / "data"
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
+DELIVERABLES_DIR = PROJECT_ROOT / "deliverables"
 
 def load_yaml_config(filename: str) -> dict:
     filepath = CONFIG_DIR / filename

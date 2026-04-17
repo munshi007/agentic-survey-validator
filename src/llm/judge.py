@@ -21,7 +21,8 @@ def score_pair(
 ) -> PairEvaluation:
     """
     Submits a pair to the LLM judge.
-    If swap_order is True, we pretend AI was the baseline. This tests positional bias.
+    If swap_order is True, the presentation order of reference and candidate blocks is reversed
+    while preserving their semantic roles. This tests order sensitivity without changing ground truth.
     """
     
     # Simple formatter avoiding complex dependency injections

@@ -4,8 +4,9 @@ import pandas as pd
 import json
 from pathlib import Path
 from typing import List, Dict, Any
-from ..io.save_outputs import save_csv_output, save_markdown_snippet
+from ..io.save_outputs import save_csv_output
 from ..utils.logging import get_logger
+from ..config import DELIVERABLES_DIR
 
 logger = get_logger(__name__)
 
@@ -54,11 +55,15 @@ def run_aggregations(scores_list: List[Dict[str, Any]]) -> dict:
         },
         "top_failure_modes": error_counts.head(3).to_dict(orient="records"),
         "recommendation": "Use for directional exploration, not high-resolution insight generation.",
+        "judge_stability": {
+            "mean_absolute_delta": round(df["absolute_delta"].mean(), 1),
+            "unstable_rows": int(df["instability_flag"].sum())
+        }
     }
     
     # Save the report to deliverables
-    Path("deliverables").mkdir(parents=True, exist_ok=True)
-    with open("deliverables/summary_report.json", "w") as f:
+    DELIVERABLES_DIR.mkdir(parents=True, exist_ok=True)
+    with open(DELIVERABLES_DIR / "summary_report.json", "w") as f:
         json.dump(report_json, f, indent=2)
         
     return {

@@ -44,5 +44,16 @@ def extract_attributes(answer: str, pair: AnswerPair) -> ExtractedAttributes:
             logger.error(f"Fallback Exception during extract: {e}")
             break
             
-    # Absolute fallback to fail hard but elegantly
-    raise RuntimeError(f"Failed to extract attributes for {answer[:30]} after {retries} retries.")
+    # Absolute fallback to fail gracefully
+    logger.error(f"Failed to extract attributes for {answer[:30]} after {retries} retries. Returning empty profile.")
+    return ExtractedAttributes(
+        preferred_brands=[],
+        channel_preference="Unknown",
+        packaging_size_preference="Unknown",
+        budget_value_signal="Unknown",
+        ingredient_salience="Unknown",
+        convenience_signal="Unknown",
+        decision_criteria=[],
+        sentiment_confidence="Unknown",
+        quoted_anchors=[]
+    )

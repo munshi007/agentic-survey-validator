@@ -46,6 +46,6 @@ The 43.8 score is driven primarily by consistent "character breaks" where the si
 ### 3. Recommendations & Implementation
 1. **Scope for Directional Exploration:** Useful for testing high-level campaign resonance. Do not rely on specific packaging/loyalty granularities.
 2. **Deploy "Constraint Prompts":** Strictly rule out inventions: *"Do not generate brands/sizes unless grounded in the source memory stream."*
-3. **Calibrate Idiosyncrasy:** Implement a Style Transfer layer to force hedging and colloquial roughness, reducing "marketing speech" by an estimated 60%.
+3. **Calibrate Idiosyncrasy:** Implement a Style Transfer layer to force hedging and colloquial roughness, reducing the "marketing speech" pattern observed in many simulated answers.
 
 ---

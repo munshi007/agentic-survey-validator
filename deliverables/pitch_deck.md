@@ -5,20 +5,10 @@ class: lead
 paginate: true
 backgroundColor: #fff
 style: |
-  section {
-    font-size: 26px;
-  }
-  h1 {
-    font-size: 45px;
-    color: #1a4d7d;
-  }
-  h2 {
-    font-size: 38px;
-    color: #2c3e50;
-  }
-  table {
-    font-size: 18px;
-  }
+  h1 { color: #1a4d7d; }
+  h2 { color: #2c3e50; }
+  section { font-size: 24px; }
+  footer { font-size: 15px; }
 ---
 
 # Evaluating Simulated Human Fidelity
@@ -27,48 +17,47 @@ style: |
 
 ---
 
-## 1. Core Evaluation Approach
-**Bridging the gap between Lexical Strings and Consumer Intent**
+## 1. The Approach: Hybrid Evaluation Framework
+**Why standard metrics (BLEU/ROUGE) fail:** They ignore semantic intent. A human saying "I like glass" is a 100% match for intent to "I prefer glass packaging", but a 0% lexical match.
 
-- **The Challenge:** Open-ended consumer responses are fragmented and colloquial. Standard NLP metrics (BLEU/Word-Overlap) fail to reward valid paraphrasing and penalize AI "brand ambassador" verbosity.
-- **Our Solution:** A **Hybrid Fidelity Framework** inspired by Park et al. (2024).
-  - **Structured Extraction:** AI answers are parsed into clean preference schemas (Brands, Rationale, Constraints) before comparison.
-  - **LLM-as-a-Judge:** A consumer insights "Director" agent scores the pair across 5 dimensions using an explicit 100-point weighted rubric.
-  - **Debiasing:** Uses **Order-Swapped** passes to eliminate position bias.
-- **Why it works:** It verifies *semantic mapping* rather than string matching.
+**Our Business-Ready Solution:**
+- **Answer Fidelity:** Extracts preference structures (Brands, Reasons) over strings.
+- **Tone Fidelity:** Identifies and penalizes artificial verbal polish.
+- **Consistency Diagnostic:** Monitors persona preservation throughout the survey. 
+- **Debiasing:** Order-swapped judging (GPT-4o) to remove positional bias.
 
 ---
 
-## 2. Findings: Key Simulation Drifts
-**Directionally Useful, but Structurally "Over-Authored"**
+## 2. Findings: Directionally Sound but "Over-Authored"
+**Headline Fidelity Score: 43.8/100** (Python-weighted average)
 
-**Fidelity Score: 43.8/100** *(Weighted average of 30 test pairs)*
-
-| Simulation Drift Mode | Frequency | Mitigation Priority |
+**Top Simulation Drifts Identifed:**
+| Issue | Human Target | LLM Simulation |
 | :--- | :--- | :--- |
-| **Invented Specificity** | 30/30 (100%) | **High:** Hallucinating exact sizes/brands. |
-| **Tone Mismatch** | 18/30 (60%) | **High:** AI sounds too polished/professional. |
-| **Rationale Drift** | 17/30 (57%) | **Med:** AI invents ethical defenses for casual buys. |
+| **Specificity** | *"I want a big glass bottle."* | *"Prefer 250-300ml glass with pump."* |
+| **Rationale** | *"I don't know the brands."* | *Passionate defense of transparency.* |
+| **Tone** | *"Buy what works/is cheap."* | *"I stick to simple, effective routines."* |
 
-- **Top Insight:** The simulation is **directionally useful** for capturing broad market trend exploration (e.g. channel preference), but fails at granular loyalty modeling due to the LLM's bias toward "helpful correctness."
-
----
-
-## 3. Strategic Recommendations
-**Deploying Simulations with Confidence**
-
-- **Correct Use-Case:** Use for **broad market exploration** and directional campaign resonance.
-- **High-Risk Area:** Avoid using current agents for granular "packaging testing" or "copy testing" where the AI’s over-polished persona will yield false positives.
-- **Strategic Fixes for the Pipeline:**
-  1. **Constraint Memories:** Anchor all generation to verified persona interactions.
-  2. **Trait Calibration:** Pass "Apathy" or "Skepticism" as core prompt parameters.
-  3. **Style Transfer Layer:** Apply a secondary filter to down-sample "marketing speech" into realistic human fragmentation/hedging.
+**Audit Trail:** 30/30 rows showed invented specificity; 18/30 showed tone mismatch.
 
 ---
 
-## Appendix: Methodology Choices
+## 3. Strategic Recommendations for Management
+The agents are **useful for broad market exploration**, but granular packaging or copy-testing will yield false positives driven by the LLM's "helpful correctness" bias.
 
-- **GPT-4o Judge:** Chosen for superior zero-shot reasoning and structured output adherence.
-- **Prompt-Based Judge vs. Fine-Tuning:** The judge approach is more auditable and robust for behavioral evaluation, whereas fine-tuning often masks hallucinations behind better style.
-- **BERTScore Anchor:** Provides a deterministic, mathematical semantic check to complement the qualitative LLM judgment.
-- **Persona Consistency Layer:** Tracked as a separate diagnostic (scoring 75–85) to ensure persona stability without polluting the single-answer fidelity metric.
+**Proposed Implementation Fixes:**
+- **Constraint Memories:** Anchor all generation strictly to past user memories. 
+- **Trait Calibration:** Pass "Apathy" and "Skepticism" scores to prevent over-expertise.
+- **Style Filtering:** Apply a secondary filter to reduce "ambassador vernacular" into simple, human-like responses.
+
+*Persona consistency is maintained as a separate advisory diagnostic.*
+
+---
+
+## Appendix: Methodology & Architecture
+- **GPT-4o Judge:** Selected for superior zero-shot reasoning and JSON output reliability.
+- **Python-Based Weighting:** Final scores are computed deterministically from rubric weights in `configs/rubric.yaml` to prevent LLM scoring hallucinations.
+- **BERTScore Inclusion:** Used as a non-hallucinating mathematical anchor to track semantic embedding similarity alongside qualitative judge notes.
+- **Consistency Separation:** Keeping consistency separate avoids muddying the signal of whether an agent failed on a *single fact* vs. a *long-term memory*.
+
+---

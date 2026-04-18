@@ -1,3 +1,7 @@
+---
+marp: true
+---
+
 # Representative Examples of Simulation Fidelity
 
 ## High Fidelity (Strongest Semantic and Tone Alignments)

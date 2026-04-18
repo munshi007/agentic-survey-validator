@@ -1,3 +1,10 @@
+---
+marp: true
+theme: default
+class: default
+paginate: true
+---
+
 # Evaluating Generative Agent Simulation Performance
 ## Technical Evaluation Report for Roland Berger
 
@@ -16,8 +23,11 @@ Traditional NLP evaluation metrics (like BLEU or ROUGE) are inadequate for open-
 3. **Person-Level Consistency (Separate Diagnostic):** We aggregate all answers per respondent to detect underlying "persona drift" across the full interview. This layer is reported separately and is not factored into the headline fidelity score.
 4. **Order-Swapped Debiasing:** To mitigate LLM positional bias, human and AI answers were swapped, and final rubrics were averaged.
 
+---
+
 ### 2. Key Findings & The "Over-authoring" Problem
 While the AI captured broad topic alignment (e.g., recognizing an affinity for Korean skincare), it consistently broke character. 
+
 
 **Top Error Modes Identified:**
 
